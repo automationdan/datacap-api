@@ -4,7 +4,6 @@
   "description": "App for capturing stuff",
   "main": "server.js",
   "scripts": {
-    "build": "cd capture-ui && yarn run build && cd .. && cp -R capture-ui/build/ dist/src/web-app/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
