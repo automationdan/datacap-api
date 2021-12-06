@@ -102,11 +102,12 @@ router.post('/uploadAndPrepare/:pageType',(req,res) =>{
     })
   })
 
-  router.get('/getdocFile/:transactionalId/:ext',(req,res) =>{
+  router.get('/getdocFile/:transactionalId/:ext/:docid',(req,res) =>{
     let ext = req.params.ext
     let transactionalId = req.params.transactionalId
+    let docid = req.params.docid
     //datacap.fetchDataNotPromiseFile(transactionalId,ext,res)
-    datacap.fetchDataFile(transactionalId,ext).then(data=>{
+    datacap.fetchDataFile(transactionalId,ext,docid).then(data=>{
       //res.setHeader('content-type', 'application/pdf');
       //res.setHeader('Content-Length', stat.size);
 

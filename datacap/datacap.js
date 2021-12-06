@@ -65,10 +65,10 @@ module.exports = {
         return request.get({url: urlAction}).pipe(res);
     },
 
-    fetchDataFile: function(transId,ext){
+    fetchDataFile: function(transId,ext,docid){
       return new Promise((resolve, reject) => {
         console.log(ext)
-        var urlAction = "http://" +dcapBaseUrl + ":" + dcapBasePort + "/wtm/servicewtm.svc/Transaction/GetFile/" + transId + "/tm000001/" + ext;
+        var urlAction = "http://" +dcapBaseUrl + ":" + dcapBasePort + "/wtm/servicewtm.svc/Transaction/GetFile/" + transId + "/"+ docid +"/" + ext;
 
         console.log(urlAction);
          request.get({url: urlAction}, function(err,httpResponse,body){
