@@ -105,6 +105,7 @@ module.exports = {
         //console.log(message);
        //console.log(message);
        var formData = {data: message}
+       console.log(formData);
 //res.write("Executing rules");
 
        //Do the post

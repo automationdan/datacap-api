@@ -52,7 +52,7 @@ router.post('/captureDocument/:pageType/:application/:workflow/:rules/:ext',(req
     })
 })
 
-router.post('/executeRules/:transactionalId/:application/:workflow/:rules/:ext',(req,res)=>{
+router.post('/executeRules/:transactionalId/:application/:workflow/:rules/:ext/:docId',(req,res)=>{
   //  datacap.beginTransaction().then(data => {console.log(data)});
 
   let rules = req.params.rules
@@ -60,10 +60,11 @@ router.post('/executeRules/:transactionalId/:application/:workflow/:rules/:ext',
   let application = req.params.application
   let ext = req.params.ext
   let transactionalId = req.params.transactionalId
+  let docId = req.params.docId
   console.log(ext);
   console.log(rules)
   datacap.executeRules(transactionalId,application,workflow,rules).then(data=>{
-      datacap.fetchDataFile(transactionalId,ext).then(data=>{
+      datacap.fetchDataFile(transactionalId,ext,docId).then(data=>{
         datacap.convertToText(data).then(data =>{
           //let obj = JSON.parse(data);
           rtnValue = {"transactionalId": transactionalId, values: data}
@@ -74,6 +75,23 @@ router.post('/executeRules/:transactionalId/:application/:workflow/:rules/:ext',
   })
 
 })
+
+router.post('/executeRule/:transactionalId/:application/:workflow/:rules',(req,res)=>{
+  //  datacap.beginTransaction().then(data => {console.log(data)});
+
+  let rules = req.params.rules
+  let workflow = req.params.workflow
+  let application = req.params.application
+  let ext = req.params.ext
+  let transactionalId = req.params.transactionalId
+  let docId = req.params.docId
+  console.log(rules)
+  datacap.executeRules(transactionalId,application,workflow,rules).then(data=>{
+          rtnValue = {"transactionalId": transactionalId, values: data}
+          res.send(rtnValue)
+      })
+  })
+
 
 
 router.post('/uploadAndPrepare/:pageType',(req,res) =>{
@@ -115,6 +133,22 @@ router.post('/uploadAndPrepare/:pageType',(req,res) =>{
       //res.setHeader('Content-Disposition', 'attachment; filename=tm000001.pdf');
       res.send(data)
 
+    })
+  });
+
+  router.get('/getDataFile/:transactionalId/:ext/:docid',(req,res) =>{
+    let ext = req.params.ext
+    let transactionalId = req.params.transactionalId
+    let docid = req.params.docid
+    console.log(docid);
+    //datacap.fetchDataNotPromiseFile(transactionalId,ext,res)
+    datacap.fetchDataFile(transactionalId,ext,docid).then(data=>{
+
+      datacap.convertToText(data).then(data =>{
+        //let obj = JSON.parse(data);
+        rtnValue = {"transactionalId": transactionalId, values: data}
+        res.send(rtnValue)
+      })
     })
   });
 
